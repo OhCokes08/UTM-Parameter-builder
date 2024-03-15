@@ -1,15 +1,15 @@
 import streamlit as st
 import pandas as pd
 
-utm_sources = ['eloqua','email', 'adwords', 'ads','facebok', 'twitter','instagram','linkedin', 'bing','google','duckduckgo', 'eloqua']
-utm_mediums = ['social','socialmedia','social-media','display', 'email','paid-social','paid_social','ppc-social','search','cpc','ppc','paid']
+utm_sources = ["eloqua","email", "adwords", "ads","facebook", "twitter","instagram","linkedin", "bing","google","duckduckgo", "eloqua"]
+utm_mediums = ["social","socialmedia","social-media","display", "email","paid-social","paid_social","ppc-social","search","cpc","ppc","paid"]
 
 def link_creation(base_url, utm_source, utm_medium, utm_campaign, utm_content, utm_term, utm_id, utm_ref):
     utm_params = []
     if utm_source:
-        utm_params.append(f"utm_source={utm_sources}")
+        utm_params.append(f"utm_source={','.join(utm_source)}")
     if utm_medium:
-        utm_params.append(f"utm_medium={utm_mediums}")
+        utm_params.append(f"utm_medium={','.join(utm_medium)}")
     if utm_campaign:
         utm_params.append(f"utm_campaign={utm_campaign}")
     if utm_content:
@@ -22,7 +22,7 @@ def link_creation(base_url, utm_source, utm_medium, utm_campaign, utm_content, u
         utm_params.append(f"utm_id={utm_id}")
 
     utm_params_str = "&".join(utm_params)
-    return f"{base_url}?{utm_params_str}"
+    return f"{base_url}/?{utm_params_str}"
 
 def main():
     st.title("URL Builder with UTM Parameters")
@@ -50,6 +50,7 @@ def main():
         if submitted and base_url:
             utm_url = link_creation(base_url, utm_source, utm_medium, utm_campaign, utm_term, utm_content, utm_ref, utm_id)
             st.success('Your UTM URL is:')
+            print(utm_url)
             st.code(utm_url)
 
 if __name__ == "__main__":
